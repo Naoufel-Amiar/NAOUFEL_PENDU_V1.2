@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,7 @@ namespace NAOUFEL_PENDU
     /// </summary>
     public partial class MainWindow : Window
     {
-        //creation d'un tier
+        //creation d'un timer
         private DispatcherTimer timer;
         private TimeSpan timeLeft = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(30);
 
@@ -100,13 +101,24 @@ namespace NAOUFEL_PENDU
 
         //definitions de random + valeur de depart de nb de vie
         Random random = new Random();
-        int NB_Vie = 7;
+        int NB_Vie = 0;
 
+        int TimeBarTimer = 331;
         //def des variables pour le Launch
         int indexAleatoire;
         string MotAleatoire;
         string MotEtoile;
 
+        //fonction pour la progress bar du timer
+        public async void BarTimer()
+        {
+            for (int i = 0; i < TimeBarTimer; i++)//boucle pour enleer 1 a la valeur (300 seconde = 5 min 30 s)
+            {
+                TimeBarTimer--;
+                ProgressBarTimer.Value = TimeBarTimer;
+                await Task.Delay(1000); // Attendez 1 seconde sans bloquer le thread principal
+            }
+        }
         //fonction pour le demarage du jeu
         public void Launch()
         {
@@ -128,18 +140,20 @@ namespace NAOUFEL_PENDU
             TB_Display.Text = mot_affiche;
             TB_Life.Text = NB_Vie.ToString();
             progressBar.Value = NB_Vie;
+            ProgressBarTimer.Value = TimeBarTimer;
+            BarTimer();
         }
 
         //fonction pour verifier si Lettre proposer est la bonne
             public void Btn_CLICK(object sender, RoutedEventArgs e)
-            {
+            {//on recupere la valeur du boutton 
             Button btn = sender as Button;
-            string btnContent = btn.Content.ToString();
+            string btnContent = btn.Content.ToString();//conversion en str
             StringBuilder newMotAffiche = new StringBuilder(mot_affiche);
 
-            for (int i = 0; i < mot_devine.Length; i++)
+            for (int i = 0; i < mot_devine.Length; i++)//verif de la letre proposer, en repetant i fois (i = nb de lettre du mot)
                 {
-                    if (btnContent == mot_devine[i].ToString())
+                    if (btnContent == mot_devine[i].ToString())//si letrre proposer = lettre dans le mot --> desactive le BTN + met a jour le tableau newMotAffiche
                         {
                             Lettre_dedans = true;
                             if (Char.IsLetter(mot_devine[i]))
@@ -149,16 +163,16 @@ namespace NAOUFEL_PENDU
                         }
                 }
 
-            mot_affiche = newMotAffiche.ToString();
+            mot_affiche = newMotAffiche.ToString();//afficher la lettre trouver
             TB_Display.Text = mot_affiche;
 
-            if (Lettre_dedans == false)
+            if (Lettre_dedans == false)//si lettre proposer est fausse  : enlever 1 vie + actualiser la barre de vie
             {
                 NB_Vie -= 1;
                 progressBar.Value = NB_Vie;
                 TB_Life.Text = NB_Vie.ToString();
 
-                if (NB_Vie == 0)
+                if (NB_Vie == 0)//si nb vie tombe a 0 = perdu + texte + stop du timer
                 {
                     TB_Display.Text = "PERDU , LE MOT ETAIT :" + "\n" + mot_devine;
                     timer.Stop();
@@ -166,12 +180,12 @@ namespace NAOUFEL_PENDU
 
             }
 
-            else if (mot_devine == mot_affiche)
+            else if (mot_devine == mot_affiche)//si toute les lettres sont trouver
             {
                 TB_Display.Text = "BIEN JOUER VOUS AVEZ GAGNER";
             }
 
-            Uri resourceUri = new Uri("/PICTURE/"+ NB_Vie + "_vie.png", UriKind.Relative);
+            Uri resourceUri = new Uri("/PICTURE/"+ NB_Vie + "_vie.png", UriKind.Relative);//affiche une image en fonction du nb de vie
             Image_pendu.Source = new BitmapImage(resourceUri);
 
 
@@ -183,13 +197,17 @@ namespace NAOUFEL_PENDU
 
 
 
-        private void TB_RESTART_Click(object sender, RoutedEventArgs e)
+        private void TB_RESTART_Click(object sender, RoutedEventArgs e)//boutton du restart, remet a 0 la vie/timer/images
         {
             Launch();
             ResetTimer();
+            Uri resourceUri = new Uri("/PICTURE/" + "7_vie.png", UriKind.Relative);
+            Image_pendu.Source = new BitmapImage(resourceUri);
+            TimeBarTimer = 331;
+            ProgressBarTimer.Value = TimeBarTimer;
         }
 
-        private void TB_STOP_Click(object sender, RoutedEventArgs e)
+        private void TB_STOP_Click(object sender, RoutedEventArgs e)//boutton de fermeture du jeu
         {
             Application.Current.Shutdown();
 

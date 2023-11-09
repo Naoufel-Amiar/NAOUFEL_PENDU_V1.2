@@ -26,7 +26,7 @@
                 </Style.Resources>
             </Style>
 
-            <!-- Definitions du style pour la progress bar-->
+            <!-- Definitions du style pour le TIMER-->
 
             <Style x:Key="TIMER"  TargetType="{x:Type Control}">
                 <Setter Property="Margin" Value="15"/>
@@ -54,6 +54,21 @@
                     </Style>
                 </Style.Resources>
             </Style>
+
+            <!-- Definitions du style pour la progress bar du TIMER-->
+
+            <Style x:Key="PROGRESSTIMER"  TargetType="{x:Type ProgressBar}">
+                <Setter Property="Margin" Value="15"/>
+                <Setter Property="Background" Value="Gold"/>
+                <Setter Property="Foreground" Value="Black"/>
+
+                <Style.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10" />
+                    </Style>
+                </Style.Resources>
+            </Style>
+
 
             <!-- Definitions du style pour les RESTART_STOP-->
 
@@ -177,20 +192,10 @@
 
         </Grid >
         <!-- Definitions de la profresse bar-->
-        <ProgressBar x:Name="progressBar" Width="500" Grid.Row="3" Grid.Column="0" Height="85" Minimum="0" Maximum="11" Margin="35"  Style="{StaticResource PROGRESS}"/>
+        <ProgressBar x:Name="progressBar" Width="500" Grid.Row="3" Grid.Column="0" Height="85" Minimum="0" Maximum="10" Margin="35"  Style="{StaticResource PROGRESS}"/>
 
 
         <Image x:Name="Image_pendu" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/7_vie.png" Width="375" Height="370" />
-        <!--<Image x:Name="VIE_6" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/6_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_5" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/5_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_4" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/4_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_3" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/3_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_2" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/2_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_1" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/1_vie.png" Width="375" Height="370" />
-        <Image x:Name="VIE_0" Grid.Row = "1" Grid.Column = "2" Source="/PICTURE/0_vie.png" Width="375" Height="370" />-->
-
-
-
 
         <!-- Definitions de l'affichage textuel du timer-->
         <TextBlock Grid.Row = "1" Grid.Column = "3" Name="TB_Timer"   FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -222,18 +227,15 @@
                 <ColumnDefinition Width = "*" />
             </Grid.ColumnDefinitions>
 
+            <!-- Créations des bouttons de restart/stop-->
             <Button Grid.Row = "2" Grid.Column = "0" Name = "TB_START" FontSize="38" Background="green" Content = "RESTART"   Click="TB_RESTART_Click" Style="{StaticResource RESTART_STOP}" />
             <Button Grid.Row = "2" Grid.Column = "1" Name = "TB_STOP" FontSize="38" Background="red" Content = "STOP"  Click="TB_STOP_Click" Style="{StaticResource RESTART_STOP}"/>
 
-
-
-
         </Grid>
-
+        <!-- Créations des affichage, pour le mot a trouver, le timer et de la progress bar du timer-->
         <TextBox Grid.Column="1" Grid.Row="1"   Name="TB_Display"  Style="{StaticResource DISPLAY}"/>
-        <TextBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="94" Grid.Row="1" Name="TB_timer" Width="268" Style="{StaticResource TIMER}" Margin="0,15,0,0"/>
-
-
+        <TextBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="320" Grid.Row="1" Name="TB_timer" Width="268" Style="{StaticResource TIMER}" Margin="0,15,0,0"/>
+        <ProgressBar Grid.Column="3" x:Name="ProgressBarTimer" HorizontalAlignment="Center" Height="50" Grid.Row="2" Minimum="0" Maximum="331" VerticalAlignment="Center" Width="350" Style="{StaticResource PROGRESSTIMER}"/>
 
     </Grid>
 </Window>
