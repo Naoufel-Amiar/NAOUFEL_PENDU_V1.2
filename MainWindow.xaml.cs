@@ -30,7 +30,6 @@ namespace NAOUFEL_PENDU
         private MediaPlayer LooseSound;
         private MediaPlayer TetrisSound;
 
-
         //creation d'un timer
         private DispatcherTimer timer;
         private TimeSpan timeLeft = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(30);
@@ -39,8 +38,6 @@ namespace NAOUFEL_PENDU
 
         public MainWindow()
         {
-
-
             InitializeComponent();
 
             HitSound = new MediaPlayer();
@@ -59,16 +56,13 @@ namespace NAOUFEL_PENDU
             TetrisSound = new MediaPlayer();
             Uri resourcetetrisson = new Uri("C:\\Users\\SLAB58\\Downloads\\NAOUFEL-PENDU-V1-master\\NAOUFEL-PENDU-V1-master\\PICTURE\\tetris.mp3", UriKind.Relative);
             TetrisSound.Open(resourcetetrisson);
-
             TetrisSound.Volume = 0.1;
 
-
-            InitializeTimer();
+            InitializeTimer();  //LE SON NE MARCHE PAS !! Normal car chemin d'acces utilisable seulement pour la machine de AMIAR
             Launch();
 
             TetrisSound.Play(); //son de musique de fond
             TetrisSound.Position = TimeSpan.Zero;//reset du son de jeu
-
         }
 
         private void InitializeTimer()
@@ -77,7 +71,6 @@ namespace NAOUFEL_PENDU
             timer.Interval = TimeSpan.FromSeconds(1); //intervalle de temps de 1 s
             timer.Tick += Timer_Tick;
             timer.Start();
-
         }
 
         //demarrer le timer
@@ -117,7 +110,6 @@ namespace NAOUFEL_PENDU
 
         //variable binaire de conditions
         bool Lettre_dedans = false;
-
 
         //chaines de caractere
         string mot_devine = "";
@@ -243,8 +235,6 @@ namespace NAOUFEL_PENDU
 
             }
 
-
-
         private void TB_RESTART_Click(object sender, RoutedEventArgs e)//boutton du restart, remet a 0 la vie/timer/images
         {
             Launch();
@@ -253,6 +243,8 @@ namespace NAOUFEL_PENDU
             Image_pendu.Source = new BitmapImage(resourceUri);
             TimeBarTimer = 331;
             ProgressBarTimer.Value = TimeBarTimer;
+            TetrisSound.Play(); //son de musique de fond
+
         }
 
         private void TB_STOP_Click(object sender, RoutedEventArgs e)//boutton de fermeture du jeu
@@ -260,7 +252,6 @@ namespace NAOUFEL_PENDU
             Application.Current.Shutdown();
 
         }
-
     }
 
     }
