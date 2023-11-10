@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,16 +24,51 @@ namespace NAOUFEL_PENDU
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
+    {//création de 3 son
+        private MediaPlayer HitSound;
+        private MediaPlayer WinSound; 
+        private MediaPlayer LooseSound;
+        private MediaPlayer TetrisSound;
+
+
         //creation d'un timer
         private DispatcherTimer timer;
         private TimeSpan timeLeft = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(30);
 
+        private MediaPlayer mediaPlayer;
+
         public MainWindow()
         {
+
+
             InitializeComponent();
+
+            HitSound = new MediaPlayer();
+            Uri resourceHitson = new Uri("C:\\Users\\SLAB58\\Downloads\\NAOUFEL-PENDU-V1-master\\NAOUFEL-PENDU-V1-master\\PICTURE\\HitSound.mp3", UriKind.Relative);
+            HitSound.Open(resourceHitson);
+
+            WinSound = new MediaPlayer();
+            Uri resourceWinson = new Uri("C:\\Users\\SLAB58\\Downloads\\NAOUFEL-PENDU-V1-master\\NAOUFEL-PENDU-V1-master\\PICTURE\\WinSound.mp3", UriKind.Relative);
+            WinSound.Open(resourceWinson);
+
+            LooseSound = new MediaPlayer();
+            Uri resourceLooseson = new Uri("C:\\Users\\SLAB58\\Downloads\\NAOUFEL-PENDU-V1-master\\NAOUFEL-PENDU-V1-master\\PICTURE\\LooseSound.mp3", UriKind.Relative);
+            LooseSound.Open(resourceLooseson);
+
+
+            TetrisSound = new MediaPlayer();
+            Uri resourcetetrisson = new Uri("C:\\Users\\SLAB58\\Downloads\\NAOUFEL-PENDU-V1-master\\NAOUFEL-PENDU-V1-master\\PICTURE\\tetris.mp3", UriKind.Relative);
+            TetrisSound.Open(resourcetetrisson);
+
+            TetrisSound.Volume = 0.1;
+
+
             InitializeTimer();
             Launch();
+
+            TetrisSound.Play(); //son de musique de fond
+            TetrisSound.Position = TimeSpan.Zero;//reset du son de jeu
+
         }
 
         private void InitializeTimer()
@@ -62,7 +99,7 @@ namespace NAOUFEL_PENDU
             StartTimer();  // Redémarre le timer
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        public void Timer_Tick(object sender, EventArgs e)
         {
             if (timeLeft.TotalSeconds > 0)
             {
@@ -73,8 +110,8 @@ namespace NAOUFEL_PENDU
             {
                 timer.Stop();
                 TB_Display.Text = " PERDU Vous êtes trop lent.";
-
-                // Réinitialise le jeu
+                TetrisSound.Stop(); //son de musique de fond coupé
+                LooseSound.Stop();//son defaite
             }
         }
 
@@ -88,12 +125,12 @@ namespace NAOUFEL_PENDU
         //Liste des mots
         string[] ListMot =  {
         "PATATE", "OLIVE", "MUR", "VILLE", "ECRAN", "BOULE", "VOITURE", "CAMION", "PASTORALE", "LOURD", 
-        "SALUT", "MONDE", "INFORMATIQUE", "PROGRAMMATION", "DEVELOPPEUR", "C#", "LANGAGE", "CONCEPTION",
+        "SALUT", "MONDE", "INFORMATIQUE", "PROGRAMMATION", "DEVELOPPEUR", "LANGAGE", "CONCEPTION",
         "APPLICATION", "ORDINATEUR", "SYSTEME", "LOGICIEL", "FICHIER", "COMPOSANT", "INTERFACE", "CLASSE",
         "OBJET", "BIBLIOTHEQUE", "METHODE", "VARIABLE", "CONSTANTE", "CONDITION", "BOUCLE", "TABLEAU",
         "STRUCTURE", "ALGORITHME", "EDITEUR", "COMPILATION", "DEBUGAGE", "OPTIMISATION", "RESEAU", "INTERNET",
         "SECURITE", "CRYPTAGE", "DEBOGAGE", "ERREUR", "EXCEPTION", "TRAITANT", "GESTIONNAIRE", "ASSEMBLAGE",
-        "DEPLOIEMENT", "VERSION", "GESTION", "UTILISATEUR", "ADMINISTRATEUR", "AUTHENTIFICATION",
+        "DEPLOIEMENT", "VERSION", "GESTION", "UTILISATEUR", "ADMINISTRATEUR", "AUTHENTIFICATION", "PETANQUE",
         "AUTORISATION", "SESSION", "IDENTIFIANT", "INSTRUIT", "POLLEN", "GYMNASTE", "CAGES", "RAPIDE", "MOTEUR",
         };
 
@@ -168,14 +205,22 @@ namespace NAOUFEL_PENDU
 
             if (Lettre_dedans == false)//si lettre proposer est fausse  : enlever 1 vie + actualiser la barre de vie
             {
+                HitSound.Position = TimeSpan.Zero;
+                HitSound.Play();//son de degat lancé
                 NB_Vie -= 1;
                 progressBar.Value = NB_Vie;
                 TB_Life.Text = NB_Vie.ToString();
+                
 
                 if (NB_Vie == 0)//si nb vie tombe a 0 = perdu + texte + stop du timer
                 {
                     TB_Display.Text = "PERDU , LE MOT ETAIT :" + "\n" + mot_devine;
                     timer.Stop();
+                    TetrisSound.Stop(); //son de musique de fond coupé
+                    LooseSound.Play(); //son de défaite lancé
+                    btn.IsEnabled = false;
+
+
                 }
 
             }
@@ -183,13 +228,16 @@ namespace NAOUFEL_PENDU
             else if (mot_devine == mot_affiche)//si toute les lettres sont trouver
             {
                 TB_Display.Text = "BIEN JOUER VOUS AVEZ GAGNER";
+                TetrisSound.Stop(); //son de musique de fond coupé
+                WinSound.Play();//son de Victoire lancé
+                timer.Stop();
             }
 
             Uri resourceUri = new Uri("/PICTURE/"+ NB_Vie + "_vie.png", UriKind.Relative);//affiche une image en fonction du nb de vie
             Image_pendu.Source = new BitmapImage(resourceUri);
 
 
-            //desactivation  du boutton la lettre utiliser + desactiasion de la variable Lettre_dedans (représente la condition sur l'etat la lettre proposer)
+            //desactivation  du boutton la lettre utiliser + desactivasion de la variable Lettre_dedans (représente la condition sur l'etat la lettre proposer)
             Lettre_dedans = false;
             btn.IsEnabled = false;
 
