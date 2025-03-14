@@ -1,28 +1,38 @@
 # 🎮 Jeu du Pendu en C# WPF  
 
-## 📌 Description  
-Ce projet est un **jeu du pendu** développé en **C# avec WPF**, sans architecture MVC/MVVM.  
-L'objectif est de deviner un mot avant que le temps ne soit écoulé.  
-
-🔹 **Technologie** : C# avec WPF  
-🔹 **Architecture** : Pas de séparation stricte (pas de MVC/MVVM)  
-🔹 **Gameplay** : Deviner un mot en entrant des lettres  
-🔹 **Timer** : Une barre de progression affiche le temps restant  
-🔹 **Easter Eggs** : Des surprises cachées dans le jeu !  
+🕵️‍♂️ **Devine le mot avant que le temps ne s’écoule !**  
+Un jeu du Pendu développé en **C# avec WPF**, sans architecture MVC/MVVM.  
+⚡ **Un compte à rebours sous forme de Progress Bar rend le jeu encore plus stressant !**  
 
 ---
 
-## 🛠️ Fonctionnalités  
-✔️ **Interface simple** avec WPF (`Label`, `Button`, `TextBox`)  
-✔️ **Système de timer** (progression du temps avant la défaite)  
-✔️ **Affichage dynamique** du mot caché (`_ _ _ _ _`)  
-✔️ **Gestion des erreurs** (lettres déjà testées, lettres invalides)  
-✔️ **Animations & effets sonores** (optionnels)  
-✔️ **Easter Eggs cachés** 👀  
+## 🚀 **Fonctionnalités principales**  
+
+| 🔹 Fonctionnalité        | ✔️ État |
+|--------------------------|--------|
+| 🎭 Interface en WPF      | ✅ Fait |
+| ⏳ Timer avec Progress Bar | ✅ Fait |
+| 🔤 Entrée de lettres    | ✅ Fait |
+| 🎨 Affichage dynamique du mot | ✅ Fait |
+| ❌ Gestion des erreurs  | ✅ Fait |
+| 🕵️ **Easter Eggs cachés** | ✅ Fait |
 
 ---
 
-## 🔧 Installation et Exécution  
+## 🎮 **Comment jouer ?**  
+
+1️⃣ L’application **choisit un mot au hasard**  
+2️⃣ Entre une lettre dans la **TextBox** et clique sur "Valider"  
+3️⃣ **Bonne lettre ?** Elle s’affiche dans le mot !  
+4️⃣ **Mauvaise lettre ?** Le temps continue de s’écouler...  
+5️⃣ **Si le mot est trouvé avant la fin du temps → GAGNÉ ! 🎉**  
+6️⃣ **Si le timer atteint 0 → PERDU ! 💀**  
+
+
+---
+
+## 🔧 **Installation et Exécution**  
+
 ### **1️⃣ Prérequis**  
-- **Visual Studio** (2019 ou supérieur)  
-- **.NET 6 ou 7**  
+🔹 **Visual Studio** (2019 ou supérieur)  
+🔹 **.NET 6 ou 7**  
