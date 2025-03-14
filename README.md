@@ -8,14 +8,14 @@ Un jeu du Pendu développé en **C# avec WPF**, sans architecture MVC/MVVM.
 
 ## 🚀 **Fonctionnalités principales**  
 
-| 🔹 Fonctionnalité        | ✔️ État |
-|--------------------------|--------|
-| 🎭 Interface en WPF      | ✅ Fait |
-| ⏳ Timer avec Progress Bar | ✅ Fait |
-| 🔤 Entrée de lettres    | ✅ Fait |
-| 🎨 Affichage dynamique du mot | ✅ Fait |
-| ❌ Gestion des erreurs  | ✅ Fait |
-| 🕵️ **Easter Eggs cachés** | ✅ Fait |
+| 🔹 Fonctionnalité        |
+|--------------------------|
+| 🎭 Interface en WPF      |
+| ⏳ Timer avec Progress Bar |
+| 🔤 Entrée de lettres    |
+| 🎨 Affichage dynamique du mot |
+| ❌ Gestion des erreurs  |
+| 🕵️ **Easter Eggs cachés** |
 
 ---
 
